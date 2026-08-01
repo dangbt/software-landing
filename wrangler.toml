@@ -1,0 +1,8 @@
+name = "techsoft-landing"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+
+# Environment variables - set via Cloudflare Dashboard or wrangler secret
+# TELEGRAM_BOT_TOKEN
+# TELEGRAM_CHAT_ID

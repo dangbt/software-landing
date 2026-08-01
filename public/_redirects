@@ -1,0 +1,9 @@
+# Cloudflare Pages redirects
+# Handle SPA routing - redirect all requests to index.html
+
+# Redirect root to Vietnamese (default locale)
+/ /vi/ 302
+
+# Handle trailing slashes
+/vi /vi/ 301
+/en /en/ 301
