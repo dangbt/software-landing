@@ -15,8 +15,9 @@ export const site = {
   taxId: "0123456789",
   /** TODO: năm thành lập */
   established: "2019",
-  /** TODO: domain thật, KHÔNG có dấu / ở cuối */
-  url: "https://linkable.vn",
+  /** Domain thật, KHÔNG có dấu / ở cuối. Canonical, sitemap, hreflang và
+   *  dữ liệu gửi Google đều sinh ra từ dòng này. */
+  url: "https://web.linkable.vn",
 
   contact: {
     /** TODO */

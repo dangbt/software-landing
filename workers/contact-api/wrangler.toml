@@ -1,6 +1,6 @@
-name = "techsoft-api"
+name = "linkable-contact-api"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
 [vars]
-ALLOWED_ORIGIN = "https://techsoft-landing.pages.dev"
+ALLOWED_ORIGIN = "https://web.linkable.vn"
