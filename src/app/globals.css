@@ -1,31 +1,80 @@
 @import "tailwindcss";
 
+/* Dự án đổi sáng/tối bằng class `.dark` trên <html>, không theo cài đặt hệ điều
+   hành, nên phải khai báo lại biến thể `dark:` cho Tailwind v4. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   HỆ MÀU — lấy từ chính logo Linkable.
+   Gradient trong logo: #1ebc65 (xanh lá) -> #109b81 (teal).
+   Hai màu gốc đó quá nhạt để chữ trắng đè lên (chỉ 2.5 và 3.5),
+   nên bản dùng cho nút và chữ được làm tối lại nhưng giữ đúng tông.
+   ============================================================ */
 :root {
   --background: #ffffff;
-  --foreground: #0f172a;
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary: #64748b;
+  --foreground: #0b1120;
+
+  /* Thương hiệu */
+  --primary: #0c7c67;
+  --primary-dark: #0a6453;
+  --primary-soft: #e8f6f1;
+  /* Màu chữ đặt TRÊN nền primary */
+  --primary-foreground: #ffffff;
+
+  /* Gradient thương hiệu — lấy nguyên từ design system của Linkable
+     (apps/client/src/index.css). Không sửa hai dòng này. */
+  --gradient-primary: linear-gradient(135deg, #22c55e 0%, #0d9488 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #16a34a 0%, #0f766e 100%);
+
+  /* Hai đầu gradient, dùng cho mảng sáng mờ trang trí */
+  --logo-from: #22c55e;
+  --logo-to: #0d9488;
+
+  /* Màu nhấn — chỉ dùng cho badge "được chọn nhiều nhất" */
+  --accent-brand: #f59e0b;
+  --accent-brand-soft: #fffbeb;
+
+  --secondary: #52607a;
   --accent: #f1f5f9;
   --border: #e2e8f0;
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #0b1120;
   --muted: #f8fafc;
-  --muted-foreground: #64748b;
+  --muted-foreground: #52607a;
+
+  --surface-invert: #0b1e1a;
 }
 
 .dark {
-  --background: #0a0a0f;
+  --background: #080b14;
   --foreground: #f8fafc;
-  --primary: #3b82f6;
-  --primary-dark: #2563eb;
+
+  /* Trên nền tối, primary phải sáng để đọc được khi làm chữ — nên chữ đè lên
+     nút primary phải là màu tối, không phải trắng. */
+  --primary: #2ecb98;
+  --primary-dark: #22c08f;
+  --primary-soft: #0a2b25;
+  /* Gradient giống hệt chế độ sáng nên chữ đè lên cũng là trắng, như trong portal */
+  --primary-foreground: #ffffff;
+
+  /* Giữ nguyên gradient thương hiệu ở chế độ tối để nhận diện không đổi */
+  --gradient-primary: linear-gradient(135deg, #22c55e 0%, #0d9488 100%);
+  --gradient-primary-hover: linear-gradient(135deg, #16a34a 0%, #0f766e 100%);
+  --logo-from: #34d67a;
+  --logo-to: #14b8a6;
+
+  --accent-brand: #fbbf24;
+  --accent-brand-soft: #27200a;
+
   --secondary: #94a3b8;
   --accent: #1e293b;
   --border: #1e293b;
-  --card: #111118;
+  --card: #0f1420;
   --card-foreground: #f8fafc;
-  --muted: #1e293b;
+  --muted: #0d1220;
   --muted-foreground: #94a3b8;
+
+  --surface-invert: #071815;
 }
 
 @theme inline {
@@ -33,6 +82,12 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-logo-from: var(--logo-from);
+  --color-logo-to: var(--logo-to);
+  --color-accent-brand: var(--accent-brand);
+  --color-accent-brand-soft: var(--accent-brand-soft);
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-border: var(--border);
@@ -40,6 +95,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-surface-invert: var(--surface-invert);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -48,15 +104,94 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  /* Bù cho header cố định khi nhảy tới #anchor */
+  scroll-padding-top: 5.5rem;
 }
 
-/* Dark mode transitions */
-* {
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+/* ------------------------------------------------------------
+   Chuyển màu khi đổi sáng/tối.
+   Trước đây quy tắc này đặt trên `*` nên áp lên MỌI phần tử,
+   làm hover và animation GSAP bị nhoè. Nay chỉ chạy trong lúc
+   đổi theme, bật/tắt bằng class trên <html>.
+   ------------------------------------------------------------ */
+.theme-transition,
+.theme-transition *:not(svg):not(svg *) {
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease !important;
+}
+
+/* ------------------------------------------------------------
+   Reveal khi cuộn — an toàn cho SEO và khi JS lỗi.
+   Nội dung mặc định LUÔN hiển thị. Chỉ khi JS chạy được thì
+   <html> mới có class `js`, lúc đó mới ẩn đi để animate vào.
+   ------------------------------------------------------------ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Người dùng bật "giảm chuyển động" thì bỏ hết animation */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Chừa chỗ cho thanh liên hệ cố định ở đáy màn hình trên mobile */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 4.25rem;
+  }
+}
+
+/* ------------------------------------------------------------
+   Gradient thương hiệu — đặt tên trùng với design system của Linkable
+   để sau này copy qua lại giữa portal và landing không phải dịch tên.
+   ------------------------------------------------------------ */
+.bg-gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.btn-brand {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  transition: background 0.2s ease;
+}
+
+.btn-brand:hover {
+  background: var(--gradient-primary-hover);
+}
+
+.text-gradient-primary {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  /* Chừa chỗ cho dấu tiếng Việt bên dưới khỏi bị cắt */
+  padding-bottom: 0.08em;
 }

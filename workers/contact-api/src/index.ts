@@ -16,11 +16,11 @@ interface Env {
 
 interface ContactFormData {
   name: string;
-  email: string;
-  phone?: string;
+  phone: string;
+  email?: string;
   budget?: string;
   services?: string[];
-  message: string;
+  message?: string;
 }
 
 function escapeHtml(text: string): string {
@@ -34,18 +34,20 @@ function formatTelegramMessage(data: ContactFormData): string {
   const services = data.services?.join(", ") || "Không chọn";
   const phone = data.phone || "Không cung cấp";
   const budget = data.budget || "Không chọn";
+  const email = data.email || "Không cung cấp";
+  const message = data.message || "Không có mô tả thêm";
 
   return `
 🔔 <b>Yêu cầu liên hệ mới!</b>
 
 👤 <b>Họ tên:</b> ${escapeHtml(data.name)}
-📧 <b>Email:</b> ${escapeHtml(data.email)}
+📧 <b>Email:</b> ${escapeHtml(email)}
 📱 <b>SĐT:</b> ${escapeHtml(phone)}
 💰 <b>Ngân sách:</b> ${escapeHtml(budget)}
 🛠 <b>Dịch vụ:</b> ${escapeHtml(services)}
 
 📝 <b>Nội dung:</b>
-${escapeHtml(data.message)}
+${escapeHtml(message)}
 
 ⏰ ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}
 `.trim();
@@ -122,16 +124,18 @@ export default {
         );
       }
 
-      if (!email || !validateEmail(email)) {
+      // Khách hàng mảng website thường để lại số điện thoại chứ không phải email,
+      // nên số điện thoại là bắt buộc còn email là tuỳ chọn.
+      if (!phone || phone.replace(/[^0-9+]/g, "").length < 9) {
         return new Response(
-          JSON.stringify({ error: "Vui lòng nhập email hợp lệ" }),
+          JSON.stringify({ error: "Vui lòng nhập số điện thoại hợp lệ" }),
           { status: 400, headers }
         );
       }
 
-      if (!message || message.trim().length < 10) {
+      if (email && !validateEmail(email)) {
         return new Response(
-          JSON.stringify({ error: "Vui lòng nhập nội dung tin nhắn (ít nhất 10 ký tự)" }),
+          JSON.stringify({ error: "Email không hợp lệ" }),
           { status: 400, headers }
         );
       }
@@ -139,11 +143,11 @@ export default {
       // Send Telegram notification
       const telegramMessage = formatTelegramMessage({
         name: name.trim(),
-        email: email.trim(),
+        email: email?.trim(),
         phone: phone?.trim(),
         budget,
         services,
-        message: message.trim(),
+        message: message?.trim(),
       });
 
       await sendTelegramMessage(env, telegramMessage);

@@ -1,114 +1,144 @@
-import { setRequestLocale } from "next-intl/server";
-import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout";
 import { ContactForm } from "@/components/contact";
+import { CheckIcon } from "@/components/ui";
+import { site } from "@/lib/site";
+import { buildAlternates } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "seo" });
+
+  return {
+    title: t("contactTitle"),
+    description: t("contactDescription"),
+    alternates: buildAlternates(locale, "contact"),
+  };
+}
+
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  
+
   const t = await getTranslations("contact");
 
+  const channels = [
+    {
+      href: site.contact.zalo,
+      external: true,
+      label: t("phoneLabel"),
+      value: site.contact.phoneDisplay,
+      note: t("phoneNote"),
+      highlight: true,
+      icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
+    },
+    {
+      href: `mailto:${site.contact.email}`,
+      external: false,
+      label: t("emailLabel"),
+      value: site.contact.email,
+      note: t("emailNote"),
+      highlight: false,
+      icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+    },
+  ];
+
   return (
-    <section className="py-16 md:py-24 min-h-screen bg-muted">
+    <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-muted">
       <Container>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full mb-4">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-primary-soft text-primary border border-primary/15 text-sm font-medium rounded-full mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-current" />
               {t("badge")}
             </span>
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tight">
               {t("title")}
             </h1>
-            <p className="text-lg text-secondary max-w-xl mx-auto">
+            <p className="text-lg text-secondary max-w-2xl mx-auto leading-relaxed">
               {t("description")}
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-5 gap-8">
-            {/* Contact Methods - Left */}
+          <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+            {/* Kênh liên hệ */}
             <div className="lg:col-span-2 space-y-4">
-              <a
-                href="mailto:hello@techsoft.dev"
-                className="block bg-card rounded-xl p-5 border border-border hover:border-primary/50 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+              {channels.map((channel) => (
+                <a
+                  key={channel.label}
+                  href={channel.href}
+                  {...(channel.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className={`block rounded-xl p-5 border transition-colors group ${
+                    channel.highlight
+                      ? "bg-gradient-primary border-transparent text-primary-foreground"
+                      : "bg-card border-border hover:border-primary/40"
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                        channel.highlight
+                          ? "bg-primary-foreground/15 text-primary-foreground"
+                          : "bg-primary-soft text-primary group-hover:bg-gradient-primary group-hover:text-primary-foreground"
+                      }`}
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.6}
+                          d={channel.icon}
+                        />
+                      </svg>
+                    </div>
+                    <div className="min-w-0">
+                      <p className={`text-sm ${channel.highlight ? "text-primary-foreground/75" : "text-secondary"}`}>
+                        {channel.label}
+                      </p>
+                      <p
+                        className={`font-semibold break-all ${
+                          channel.highlight ? "text-primary-foreground" : "text-foreground"
+                        }`}
+                      >
+                        {channel.value}
+                      </p>
+                      <p className={`text-xs mt-0.5 ${channel.highlight ? "text-primary-foreground/70" : "text-secondary"}`}>
+                        {channel.note}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm text-secondary">{t("emailLabel")}</p>
-                    <p className="font-semibold text-foreground">{t("emailValue")}</p>
-                    <p className="text-xs text-secondary mt-0.5">{t("emailNote")}</p>
-                  </div>
-                </div>
-              </a>
+                </a>
+              ))}
 
-              <a
-                href="tel:+84123456789"
-                className="block bg-card rounded-xl p-5 border border-border hover:border-primary/50 hover:shadow-md transition-all group"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-green-100 text-green-600 group-hover:bg-green-500 group-hover:text-white transition-colors">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm text-secondary">{t("phoneLabel")}</p>
-                    <p className="font-semibold text-foreground">{t("phoneValue")}</p>
-                    <p className="text-xs text-secondary mt-0.5">{t("phoneNote")}</p>
-                  </div>
+              <div className="bg-card rounded-xl p-5 border border-border space-y-4">
+                <div>
+                  <p className="text-sm text-secondary mb-1">{t("address")}</p>
+                  <p className="text-foreground leading-relaxed">{site.contact.address}</p>
                 </div>
-              </a>
-
-              <div className="bg-card rounded-xl p-5 border border-border">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-sm text-secondary">{t("address")}</p>
-                    <p className="font-medium text-foreground">{t("addressValue")}</p>
-                  </div>
+                <div>
+                  <p className="text-sm text-secondary mb-1">{t("hoursLabel")}</p>
+                  <p className="text-foreground">{site.contact.workingHours}</p>
                 </div>
               </div>
 
-              <div className="bg-slate-900 rounded-xl p-5 text-white">
-                <p className="font-medium mb-3">{t("trustTitle")}</p>
-                <ul className="space-y-2 text-sm text-slate-300">
-                  <li className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    {t("trust1")}
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    {t("trust2")}
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    {t("trust3")}
-                  </li>
+              <div className="bg-card rounded-xl p-5 border border-border">
+                <h2 className="font-semibold text-foreground mb-3">{t("trustTitle")}</h2>
+                <ul className="space-y-2.5">
+                  {[t("trust1"), t("trust2"), t("trust3")].map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-sm text-secondary">
+                      <CheckIcon className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
 
-            {/* Contact Form - Right */}
             <div className="lg:col-span-3">
               <ContactForm />
             </div>

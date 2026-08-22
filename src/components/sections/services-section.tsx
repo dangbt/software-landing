@@ -1,248 +1,102 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Container } from "../layout";
-import { Link } from "@/i18n/routing";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SectionHeading } from "../ui/section-heading";
+import { useReveal } from "@/hooks/use-reveal";
+import { site } from "@/lib/site";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const serviceIcons = {
-  web: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    </svg>
-  ),
-  mobile: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-    </svg>
-  ),
-  cloud: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-    </svg>
-  ),
-  consulting: (
-    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-    </svg>
-  ),
-};
-
-const gradients = {
-  blue: "from-blue-500 to-cyan-500",
-  purple: "from-purple-500 to-pink-500",
-  cyan: "from-cyan-500 to-teal-500",
-  orange: "from-orange-500 to-amber-500",
+const icons = {
+  wordpress: "M4 6a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM4 9h16M8 6h.01M11 6h.01",
+  landing: "M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm3 4h10M7 12h6m-6 4h4",
+  theme: "M12 3l1.9 4.6L19 9l-4 3.6.9 5.4-3.9-2.3L8.1 18l.9-5.4L5 9l5.1-1.4L12 3z",
+  hosting: "M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01",
+  domain: "M21 12a9 9 0 11-18 0 9 9 0 0118 0zM3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 010 18 15 15 0 010-18z",
+  maintenance: "M10.3 4.3a4 4 0 015.4 5.4l6 6a2 2 0 01-2.8 2.8l-6-6a4 4 0 01-5.4-5.4l2.6 2.6 2-2-2.6-2.6z",
 };
 
 export function ServicesSection() {
   const t = useTranslations("services");
   const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  useReveal(sectionRef);
 
   const services = [
-    {
-      icon: serviceIcons.web,
-      titleKey: "webDev",
-      descKey: "webDevDesc",
-      tags: ["React", "Next.js", "Node.js", "TypeScript"],
-      gradient: "blue" as const,
-    },
-    {
-      icon: serviceIcons.mobile,
-      titleKey: "mobileDev",
-      descKey: "mobileDevDesc",
-      tags: ["React Native", "iOS", "Android", "Flutter"],
-      gradient: "purple" as const,
-    },
-    {
-      icon: serviceIcons.cloud,
-      titleKey: "cloudDevOps",
-      descKey: "cloudDevOpsDesc",
-      tags: ["AWS", "Docker", "CI/CD", "Kubernetes"],
-      gradient: "cyan" as const,
-    },
-    {
-      icon: serviceIcons.consulting,
-      titleKey: "consulting",
-      descKey: "consultingDesc",
-      tags: ["Strategy", "MVP", "Prototype", "UX/UI"],
-      gradient: "orange" as const,
-    },
-  ];
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const ctx = gsap.context(() => {
-      // Header animation
-      if (headerRef.current) {
-        gsap.from(headerRef.current.children, {
-          y: 60,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        });
-      }
-
-      // Cards stagger animation
-      if (cardsRef.current) {
-        const cards = cardsRef.current.querySelectorAll(".service-card");
-        gsap.from(cards, {
-          y: 80,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none",
-          },
-        });
-
-        // Hover effect setup
-        cards.forEach((card) => {
-          const icon = card.querySelector(".icon-wrapper");
-          const arrow = card.querySelector(".card-arrow");
-
-          card.addEventListener("mouseenter", () => {
-            gsap.to(icon, { scale: 1.1, duration: 0.3, ease: "power2.out" });
-            gsap.to(arrow, { x: 5, opacity: 1, duration: 0.3 });
-            gsap.to(card, { y: -5, duration: 0.3, ease: "power2.out" });
-          });
-
-          card.addEventListener("mouseleave", () => {
-            gsap.to(icon, { scale: 1, duration: 0.3, ease: "power2.out" });
-            gsap.to(arrow, { x: 0, opacity: 0.5, duration: 0.3 });
-            gsap.to(card, { y: 0, duration: 0.3, ease: "power2.out" });
-          });
-        });
-      }
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    { key: "wordpress", path: icons.wordpress, primary: true },
+    { key: "landing", path: icons.landing, primary: true },
+    { key: "theme", path: icons.theme, primary: true },
+    { key: "hosting", path: icons.hosting, primary: false },
+    { key: "domain", path: icons.domain, primary: false },
+    { key: "maintenance", path: icons.maintenance, primary: false },
+  ] as const;
 
   return (
-    <section
-      ref={sectionRef}
-      id="services"
-      className="py-24 md:py-32 bg-muted relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
-      </div>
-
+    <section ref={sectionRef} id="services" className="py-20 md:py-28 bg-muted">
       <Container>
-        {/* Header */}
-        <div ref={headerRef} className="text-center mb-16 md:mb-20">
-          <span className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border text-foreground text-sm font-medium rounded-full mb-6 shadow-sm">
-            <span className="w-1.5 h-1.5 bg-primary rounded-full" />
-            {t("label")}
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6 tracking-tight">
-            {t("title")}
-          </h2>
-          <p className="text-lg md:text-xl text-secondary max-w-2xl mx-auto leading-relaxed">
-            {t("description")}
-          </p>
-        </div>
+        <SectionHeading label={t("label")} title={t("title")} description={t("description")} />
 
-        {/* Service cards */}
-        <div ref={cardsRef} className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {services.map((service) => {
-            const gradient = gradients[service.gradient];
-            return (
-              <div
-                key={service.titleKey}
-                className="service-card group bg-card rounded-3xl p-8 md:p-10 border border-border shadow-sm hover:shadow-xl transition-shadow duration-500 cursor-pointer"
-              >
-                <div className="flex flex-col h-full">
-                  {/* Icon */}
-                  <div
-                    className={`icon-wrapper w-14 h-14 rounded-2xl bg-gradient-to-br ${gradient} text-white flex items-center justify-center mb-6 shadow-lg`}
-                  >
-                    {service.icon}
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1">
-                    <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 flex items-center gap-2">
-                      {t(service.titleKey)}
-                      <svg
-                        className="card-arrow w-5 h-5 opacity-50 transition-all"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </h3>
-                    <p className="text-secondary leading-relaxed mb-6">
-                      {t(service.descKey)}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mt-auto">
-                    {service.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-3 py-1.5 bg-muted text-muted-foreground text-sm font-medium rounded-lg group-hover:bg-accent transition-colors"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-secondary mb-6 text-lg">{t("bottomNote")}</p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all hover:shadow-lg"
-          >
-            {t("bottomCta")}
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {services.map((service) => (
+            <article
+              key={service.key}
+              className="reveal group bg-card rounded-2xl p-7 border border-border hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 flex flex-col"
             >
+              <div
+                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors ${
+                  service.primary
+                    ? "bg-gradient-primary text-primary-foreground"
+                    : "bg-primary-soft text-primary group-hover:bg-gradient-primary group-hover:text-primary-foreground"
+                }`}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.6}
+                    d={service.path}
+                  />
+                </svg>
+              </div>
+
+              <h3 className="text-lg font-bold text-foreground mb-2.5">
+                {t(`${service.key}Title`)}
+              </h3>
+              <p className="text-secondary leading-relaxed mb-6 flex-1">
+                {t(`${service.key}Desc`)}
+              </p>
+
+              <div className="flex flex-wrap gap-1.5 mt-auto">
+                {t.raw(`${service.key}Tags`).map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="px-2.5 py-1 bg-muted border border-border text-muted-foreground text-xs font-medium rounded-md"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="reveal mt-14 text-center">
+          <p className="text-secondary mb-5 text-lg max-w-2xl mx-auto">{t("bottomNote")}</p>
+          <a
+            href={site.contact.zalo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 btn-brand px-7 py-3.5 rounded-xl font-semibold"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                strokeWidth={1.8}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
               />
             </svg>
-          </Link>
+            {t("bottomCta")}
+          </a>
         </div>
       </Container>
     </section>
