@@ -35,11 +35,12 @@ export function Header() {
     router.replace(pathname, { locale: locale === "vi" ? "en" : "vi" });
   };
 
-  const navLinks = [
+  const navLinks: { href: string; label: string; isPage?: boolean }[] = [
     { href: "#services", label: t("services") },
     { href: "#pricing", label: t("pricing") },
     { href: "#process", label: t("process") },
     { href: "#faq", label: t("faq") },
+    { href: "/showcase", label: t("showcase"), isPage: true },
   ];
 
   /** Anchor chỉ hoạt động ở trang chủ; ở trang khác thì quay về trang chủ trước. */
@@ -71,17 +72,28 @@ export function Header() {
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={isHome ? link.href : `/${locale}/${link.href}`}
-                onClick={(e) => handleAnchorClick(e, link.href)}
-                className="relative px-3.5 py-2 text-foreground/70 hover:text-foreground font-medium transition-colors group"
-              >
-                {link.label}
-                <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isPage ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative px-3.5 py-2 text-foreground/70 hover:text-foreground font-medium transition-colors group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={isHome ? link.href : `/${locale}/${link.href}`}
+                  onClick={(e) => handleAnchorClick(e, link.href)}
+                  className="relative px-3.5 py-2 text-foreground/70 hover:text-foreground font-medium transition-colors group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-1 left-3.5 right-3.5 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                </a>
+              )
+            )}
           </nav>
 
           <div className="hidden lg:flex items-center gap-1.5">
@@ -165,16 +177,27 @@ export function Header() {
           }`}
         >
           <nav className="p-4 space-y-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={isHome ? link.href : `/${locale}/${link.href}`}
-                onClick={(e) => handleAnchorClick(e, link.href)}
-                className="block px-4 py-3 rounded-lg text-foreground hover:bg-accent font-medium transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) =>
+              link.isPage ? (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-4 py-3 rounded-lg text-foreground hover:bg-accent font-medium transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={isHome ? link.href : `/${locale}/${link.href}`}
+                  onClick={(e) => handleAnchorClick(e, link.href)}
+                  className="block px-4 py-3 rounded-lg text-foreground hover:bg-accent font-medium transition-colors"
+                >
+                  {link.label}
+                </a>
+              )
+            )}
             <hr className="my-3 border-border" />
             <button
               onClick={() => {

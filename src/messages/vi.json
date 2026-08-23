@@ -15,6 +15,8 @@
     "contactDescription": "Gửi yêu cầu để nhận báo giá website trọn gói trong 30 phút. Tư vấn miễn phí về tên miền, hosting, giao diện và chi phí duy trì.",
     "privacyTitle": "Chính sách bảo mật | Linkable",
     "privacyDescription": "Cách Linkable thu thập, sử dụng và bảo vệ thông tin cá nhân của khách hàng.",
+    "showcaseTitle": "Dự án đã làm — Portfolio | Linkable",
+    "showcaseDescription": "Xem portfolio các dự án website đã hoàn thành. Từ landing page đến website bán hàng, xem cách chúng tôi giúp doanh nghiệp thành công trên môi trường số.",
     "keywords": [
       "thiết kế website trọn gói",
       "thiết kế website wordpress",
@@ -32,6 +34,7 @@
     "process": "Quy trình",
     "faq": "Hỏi đáp",
     "contact": "Liên hệ",
+    "showcase": "Showcase",
     "cta": "Nhận báo giá"
   },
   "hero": {
@@ -317,6 +320,29 @@
     "successMessage": "Cảm ơn anh chị. Chúng tôi sẽ liên hệ lại trong giờ làm việc, thường là dưới 2 giờ.",
     "errorTitle": "Gửi không thành công",
     "errorMessage": "Anh chị vui lòng thử lại, hoặc nhắn Zalo trực tiếp để được hỗ trợ ngay."
+  },
+  "showcase": {
+    "label": "Showcase",
+    "title": "Dự án đã làm",
+    "subtitle": "Những dự án chúng tôi tự hào",
+    "description": "Xem qua portfolio các dự án đã hoàn thành của chúng tôi trong nhiều lĩnh vực. Mỗi website đều được thiết kế và xây dựng riêng để đáp ứng nhu cầu cụ thể của khách hàng.",
+    "filterAll": "Tất cả",
+    "viewProject": "Xem dự án",
+    "techStack": "Công nghệ",
+    "features": "Tính năng nổi bật",
+    "visitSite": "Xem website",
+    "viewSource": "Xem mã nguồn",
+    "backToShowcase": "Quay lại showcase",
+    "relatedProjects": "Dự án liên quan",
+    "year": "Năm",
+    "client": "Khách hàng",
+    "category": "Danh mục",
+    "ctaTitle": "Sẵn sàng cho dự án của bạn?",
+    "ctaDescription": "Hãy để chúng tôi giúp bạn xây dựng một website nổi bật. Liên hệ ngay để nhận tư vấn miễn phí.",
+    "ctaButton": "Nhận báo giá miễn phí",
+    "noProjects": "Không có dự án nào trong danh mục này.",
+    "projectNotFound": "Không tìm thấy dự án",
+    "projectNotFoundDesc": "Dự án bạn đang tìm không tồn tại hoặc đã bị xóa."
   },
   "privacy": {
     "title": "Chính sách bảo mật",

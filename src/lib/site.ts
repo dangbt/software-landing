@@ -21,7 +21,7 @@ export const site = {
 
   contact: {
     /** TODO */
-    email: "hello@linkable.vn",
+    email: "support@linkable.vn",
     /** TODO: số hiển thị cho người đọc */
     phoneDisplay: "0912 345 678",
     /** TODO: số dạng tel: — không dấu cách, có +84 */

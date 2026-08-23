@@ -15,6 +15,8 @@
     "contactDescription": "Send your details for a complete website quote within 30 minutes. Free advice on domains, hosting, design and renewal costs.",
     "privacyTitle": "Privacy policy | Linkable",
     "privacyDescription": "How Linkable collects, uses and protects client personal data.",
+    "showcaseTitle": "Our Work — Portfolio | Linkable",
+    "showcaseDescription": "Browse our portfolio of completed website projects. From landing pages to e-commerce stores, see how we help businesses succeed online.",
     "keywords": [
       "website design package vietnam",
       "wordpress website design",
@@ -31,6 +33,7 @@
     "process": "Process",
     "faq": "FAQ",
     "contact": "Contact",
+    "showcase": "Showcase",
     "cta": "Get a quote"
   },
   "hero": {
@@ -316,6 +319,29 @@
     "successMessage": "Thank you. We will get back to you during business hours, usually within two hours.",
     "errorTitle": "Could not send",
     "errorMessage": "Please try again, or message us on Zalo for an immediate reply."
+  },
+  "showcase": {
+    "label": "Showcase",
+    "title": "Our Work",
+    "subtitle": "Projects we are proud of",
+    "description": "Browse through our portfolio of completed projects across various industries. Each website is designed and built to meet the unique needs of our clients.",
+    "filterAll": "All",
+    "viewProject": "View project",
+    "techStack": "Technology",
+    "features": "Key features",
+    "visitSite": "Visit live site",
+    "viewSource": "View source",
+    "backToShowcase": "Back to showcase",
+    "relatedProjects": "Related projects",
+    "year": "Year",
+    "client": "Client",
+    "category": "Category",
+    "ctaTitle": "Ready to start your project?",
+    "ctaDescription": "Let us help you build a website that stands out. Get in touch for a free consultation.",
+    "ctaButton": "Get a free quote",
+    "noProjects": "No projects found in this category.",
+    "projectNotFound": "Project not found",
+    "projectNotFoundDesc": "The project you are looking for does not exist or has been removed."
   },
   "privacy": {
     "title": "Privacy policy",
