@@ -37,45 +37,50 @@ export function ServicesSection() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {services.map((service) => (
-            <article
+            <div
               key={service.key}
-              className="reveal group bg-card rounded-2xl p-7 border border-border hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 flex flex-col"
+              className="reveal group rounded-2xl p-px bg-border hover:bg-gradient-to-br hover:from-logo-from/50 hover:to-logo-to/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10"
             >
-              <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors ${
-                  service.primary
-                    ? "bg-gradient-primary text-primary-foreground"
-                    : "bg-primary-soft text-primary group-hover:bg-gradient-primary group-hover:text-primary-foreground"
-                }`}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.6}
-                    d={service.path}
-                  />
-                </svg>
-              </div>
+              <article className="relative bg-card rounded-[calc(1rem-1px)] p-7 h-full flex flex-col overflow-hidden">
+                {/* Gradient overlay - visible on hover */}
+                <div className="absolute inset-0 rounded-[calc(1rem-1px)] bg-gradient-to-br from-logo-from/0 to-logo-to/0 group-hover:from-logo-from/5 group-hover:to-logo-to/5 transition-all duration-300 pointer-events-none" />
 
-              <h3 className="text-lg font-bold text-foreground mb-2.5">
-                {t(`${service.key}Title`)}
-              </h3>
-              <p className="text-secondary leading-relaxed mb-6 flex-1">
-                {t(`${service.key}Desc`)}
-              </p>
+                <div
+                  className={`relative w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 ${
+                    service.primary
+                      ? "bg-gradient-primary text-primary-foreground shadow-md shadow-primary/20"
+                      : "bg-gradient-to-br from-logo-from/10 to-logo-to/10 text-primary group-hover:from-logo-from/100 group-hover:to-logo-to/100 group-hover:text-primary-foreground group-hover:shadow-md group-hover:shadow-primary/25"
+                  }`}
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.6}
+                      d={service.path}
+                    />
+                  </svg>
+                </div>
 
-              <div className="flex flex-wrap gap-1.5 mt-auto">
-                {t.raw(`${service.key}Tags`).map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="px-2.5 py-1 bg-muted border border-border text-muted-foreground text-xs font-medium rounded-md"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </article>
+                <h3 className="relative text-lg font-bold text-foreground mb-2.5">
+                  {t(`${service.key}Title`)}
+                </h3>
+                <p className="relative text-secondary leading-relaxed mb-6 flex-1">
+                  {t(`${service.key}Desc`)}
+                </p>
+
+                <div className="relative flex flex-wrap gap-1.5 mt-auto">
+                  {t.raw(`${service.key}Tags`).map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="px-2.5 py-1 bg-muted border border-border text-muted-foreground text-xs font-medium rounded-md"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </article>
+            </div>
           ))}
         </div>
 
