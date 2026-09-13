@@ -17,7 +17,7 @@ export const site = {
   established: "2019",
   /** Domain thật, KHÔNG có dấu / ở cuối. Canonical, sitemap, hreflang và
    *  dữ liệu gửi Google đều sinh ra từ dòng này. */
-  url: "https://web.linkable.vn",
+  url: "https://apps.linkable.vn",
 
   contact: {
     /** TODO */
