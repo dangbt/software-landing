@@ -15,8 +15,8 @@ const eslintConfig = defineConfig([
     // Đầu ra của bản dựng Cloudflare/Vercel: JavaScript đã bundle và minify,
     // không phải mã nguồn ta viết. Không loại ra thì `pnpm lint` báo 313 lỗi
     // toàn từ đây, che mất lỗi thật trong src/ và chặn mọi cổng kiểm lint.
-    ".open-next/**",
     ".vercel/**",
+    ".open-next/**",
   ]),
 ]);
 
