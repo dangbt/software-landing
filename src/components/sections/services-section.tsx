@@ -39,13 +39,16 @@ export function ServicesSection() {
           {services.map((service) => (
             <article
               key={service.key}
-              className="reveal group bg-card rounded-2xl p-7 border border-border hover:border-primary/35 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 flex flex-col"
+              className="reveal group relative bg-card rounded-2xl p-7 border border-border hover:border-transparent transition-all duration-300 flex flex-col overflow-hidden before:absolute before:inset-0 before:rounded-2xl before:p-[1px] before:bg-gradient-to-br before:from-logo-from/0 before:to-logo-to/0 hover:before:from-logo-from/50 hover:before:to-logo-to/50 before:transition-all before:duration-300 before:-z-10 before:opacity-0 hover:before:opacity-100 hover:shadow-lg hover:shadow-primary/10"
             >
+              {/* Gradient border overlay */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-logo-from/0 to-logo-to/0 group-hover:from-logo-from/10 group-hover:to-logo-to/10 transition-all duration-300 -z-10" />
+
               <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-colors ${
+                className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 relative ${
                   service.primary
-                    ? "bg-gradient-primary text-primary-foreground"
-                    : "bg-primary-soft text-primary group-hover:bg-gradient-primary group-hover:text-primary-foreground"
+                    ? "bg-gradient-primary text-primary-foreground shadow-md shadow-primary/20"
+                    : "bg-gradient-to-br from-logo-from/10 to-logo-to/10 text-primary group-hover:from-logo-from/100 group-hover:to-logo-to/100 group-hover:text-primary-foreground group-hover:shadow-md group-hover:shadow-primary/25"
                 }`}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
