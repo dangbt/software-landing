@@ -10,9 +10,8 @@ type LogoProps = {
   onDark?: boolean;
 };
 
-// Kích thước thật của file sau khi tối ưu: logo chữ 343x64, dấu hiệu 240x240.
-// Khai báo đúng tỉ lệ để trình duyệt chừa sẵn chỗ, tránh giật layout khi ảnh tải xong.
-const fullHeight = { sm: 20, md: 26, lg: 32 };
+// Kích thước chữ tương ứng với các size
+const fontSize = { sm: "text-lg", md: "text-xl", lg: "text-2xl" };
 const markSize = { sm: 26, md: 32, lg: 40 };
 
 export function Logo({ className = "", size = "md", variant = "full", onDark = false }: LogoProps) {
@@ -29,45 +28,29 @@ export function Logo({ className = "", size = "md", variant = "full", onDark = f
     );
   }
 
-  const h = fullHeight[size];
-  const w = Math.round((h * 343) / 64);
-
+  // Khi onDark = true (nền tối cố định như footer), dùng màu gradient sáng hơn
+  // để đảm bảo độ tương phản tốt
   if (onDark) {
     return (
-      <Image
-        src="/logo-dark.png"
-        alt={site.name}
-        width={w}
-        height={h}
-        style={{ height: h, width: "auto" }}
-        className={className}
-      />
+      <span
+        className={`font-bold ${fontSize[size]} ${className}`}
+        style={{
+          background: "linear-gradient(135deg, #34d67a 0%, #14b8a6 100%)",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          color: "transparent",
+        }}
+      >
+        Linkable
+      </span>
     );
   }
 
+  // Gradient text tự động đổi màu theo light/dark mode thông qua CSS variable
   return (
-    <span className={`inline-flex items-center ${className}`}>
-      {/* Hai bản logo được hiện/ẩn bằng CSS theo class .dark trên <html>.
-          Làm bằng CSS thay vì JavaScript nên không bị nháy lúc tải trang
-          và không lệch giữa HTML dựng sẵn với trình duyệt. */}
-      <Image
-        src="/logo-light.png"
-        alt={site.name}
-        width={w}
-        height={h}
-        style={{ height: h, width: "auto" }}
-        className="block dark:hidden"
-        fetchPriority="high"
-      />
-      <Image
-        src="/logo-dark.png"
-        alt={site.name}
-        width={w}
-        height={h}
-        style={{ height: h, width: "auto" }}
-        className="hidden dark:block"
-        fetchPriority="high"
-      />
+    <span className={`font-bold ${fontSize[size]} text-gradient-primary ${className}`}>
+      Linkable
     </span>
   );
 }
