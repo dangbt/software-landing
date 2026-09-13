@@ -254,3 +254,60 @@ html {
     animation: none !important;
   }
 }
+
+/* ------------------------------------------------------------
+   Pricing card gradient border — dùng cho card featured.
+   Kỹ thuật: pseudo-element với gradient làm nền, rồi đè card
+   content lên trên với background màu card, tạo ảo giác border.
+   ------------------------------------------------------------ */
+.card-gradient-border {
+  position: relative;
+  background: var(--gradient-primary);
+  padding: 2px;
+  border-radius: 1rem; /* matches rounded-2xl (16px) */
+}
+
+.card-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--card);
+  border-radius: calc(1rem - 2px);
+  z-index: 0;
+}
+
+/* Nâng z-index cho content bên trong, nhưng exclude badge .absolute
+   để tránh override position:absolute và z-index của badge */
+.card-gradient-border > *:not(.absolute) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge gradient — cho nhãn "Phổ biến nhất" */
+.badge-gradient {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Hover effect nhẹ cho gradient border card
+   Dùng specificity cao hơn để thắng .js .reveal.is-visible (0,3,0)
+   Selector này có specificity 0,4,0
+   Lưu ý: box-shadow không hỗ trợ gradient, phải dùng màu rgba thật.
+   Màu lấy từ gradient (#16a34a và #0f766e) với opacity phù hợp. */
+.js .card-gradient-border.reveal.is-visible:hover {
+  box-shadow: 0 8px 32px -8px rgba(22, 163, 74, 0.35),
+    0 4px 16px -4px rgba(15, 118, 110, 0.25);
+  transform: translateY(-2px);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover subtle cho normal cards
+   Specificity 0,4,0 để thắng .js .reveal.is-visible
+   Màu shadow lấy từ gradient hover (#16a34a) với opacity thấp */
+.js .card-hover-subtle.reveal.is-visible:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px -4px rgba(22, 163, 74, 0.25);
+  transform: translateY(-2px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
