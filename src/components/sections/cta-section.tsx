@@ -20,6 +20,8 @@ export function CTASection() {
     >
       {/* Decorative overlay elements */}
       <div className="absolute inset-0 -z-0 pointer-events-none" aria-hidden="true">
+        {/* Dark overlay to improve text contrast on gradient */}
+        <div className="absolute inset-0 bg-black/10" />
         <div className="absolute top-0 left-1/4 w-[26rem] h-[26rem] bg-white/10 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-[22rem] h-[22rem] bg-white/10 rounded-full blur-3xl" />
         <div
@@ -36,8 +38,8 @@ export function CTASection() {
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <span className="reveal inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 backdrop-blur border border-white/20 text-white text-sm font-medium rounded-full mb-7">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
             </span>
             {t("badge")}
           </span>
@@ -49,7 +51,7 @@ export function CTASection() {
             {t("title")}
           </h2>
 
-          <p className="reveal text-lg text-slate-300 mb-9 max-w-2xl mx-auto leading-relaxed">
+          <p className="reveal text-lg text-white/90 mb-9 max-w-2xl mx-auto leading-relaxed">
             {t("description")}
           </p>
 
@@ -87,7 +89,7 @@ export function CTASection() {
             </a>
           </div>
 
-          <div className="reveal flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-white/70 text-sm">
+          <div className="reveal flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-white/90 text-sm">
             <a
               href={`tel:${site.contact.phoneTel}`}
               className="flex items-center gap-2 hover:text-white transition-colors"
