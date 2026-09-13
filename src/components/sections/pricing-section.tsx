@@ -26,14 +26,14 @@ export function PricingSection() {
             return (
               <div
                 key={plan.id}
-                className={`reveal relative rounded-2xl border flex flex-col h-full ${
+                className={`reveal relative flex flex-col h-full ${
                   plan.featured
-                    ? "border-primary bg-card shadow-xl shadow-primary/10 lg:-mt-4"
-                    : "border-border bg-card"
+                    ? "card-gradient-border card-gradient-border-hover shadow-xl shadow-primary/10 lg:-mt-4"
+                    : "rounded-2xl border border-border bg-card card-hover-subtle"
                 }`}
               >
                 {plan.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent-brand text-slate-900 text-xs font-bold px-3.5 py-1.5 rounded-full whitespace-nowrap">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 badge-gradient text-xs px-3.5 py-1.5 rounded-full whitespace-nowrap z-10">
                     {t("popular")}
                   </span>
                 )}

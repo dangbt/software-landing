@@ -195,3 +195,58 @@ html {
   /* Chừa chỗ cho dấu tiếng Việt bên dưới khỏi bị cắt */
   padding-bottom: 0.08em;
 }
+
+/* ------------------------------------------------------------
+   Pricing card gradient border — dùng cho card featured.
+   Kỹ thuật: pseudo-element với gradient làm nền, rồi đè card
+   content lên trên với background màu card, tạo ảo giác border.
+   ------------------------------------------------------------ */
+.card-gradient-border {
+  position: relative;
+  background: var(--gradient-primary);
+  padding: 2px;
+  border-radius: 1rem;
+}
+
+.card-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--card);
+  border-radius: calc(1rem - 2px);
+  z-index: 0;
+}
+
+.card-gradient-border > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover effect nhẹ cho gradient border card */
+.card-gradient-border-hover {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-gradient-border-hover:hover {
+  box-shadow: 0 8px 32px -8px rgba(34, 197, 94, 0.25),
+    0 4px 16px -4px rgba(13, 148, 136, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Badge gradient — cho nhãn "Phổ biến nhất" */
+.badge-gradient {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Hover subtle cho normal cards */
+.card-hover-subtle {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card-hover-subtle:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px -4px rgba(34, 197, 94, 0.15);
+  transform: translateY(-2px);
+}
