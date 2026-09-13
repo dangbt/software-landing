@@ -228,7 +228,6 @@ html {
 @keyframes blob-pulse {
   0%, 100% {
     transform: scale(1);
-    opacity: inherit;
   }
   50% {
     transform: scale(1.08);
