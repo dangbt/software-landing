@@ -10,8 +10,10 @@ type LogoProps = {
   onDark?: boolean;
 };
 
-// Kích thước chữ tương ứng với các size
-const fontSize = { sm: "text-lg", md: "text-xl", lg: "text-2xl" };
+// Kích thước logo full (dựa trên tỉ lệ gốc 343x64)
+const logoHeight = { sm: 24, md: 32, lg: 40 };
+const logoWidth = { sm: 129, md: 172, lg: 214 }; // width = height * (343/64)
+
 const markSize = { sm: 26, md: 32, lg: 40 };
 
 export function Logo({ className = "", size = "md", variant = "full", onDark = false }: LogoProps) {
@@ -28,29 +30,31 @@ export function Logo({ className = "", size = "md", variant = "full", onDark = f
     );
   }
 
-  // Khi onDark = true (nền tối cố định như footer), dùng màu gradient sáng hơn
-  // để đảm bảo độ tương phản tốt
-  if (onDark) {
-    return (
-      <span
-        className={`font-bold ${fontSize[size]} ${className}`}
-        style={{
-          background: "linear-gradient(135deg, #34d67a 0%, #14b8a6 100%)",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          color: "transparent",
-        }}
-      >
-        Linkable
-      </span>
-    );
-  }
+  const w = logoWidth[size];
+  const h = logoHeight[size];
 
-  // Gradient text tự động đổi màu theo light/dark mode thông qua CSS variable
+  // Logo dạng ảnh thay vì text
+  // Dùng 2 thẻ Image, hiện/ẩn dựa vào class dark:
+  // - logo-light.png: chữ ĐEN, dùng cho nền SÁNG (light mode)
+  // - logo-dark.png: chữ TRẮNG, dùng cho nền TỐI (dark mode, onDark)
   return (
-    <span className={`font-bold ${fontSize[size]} text-gradient-primary ${className}`}>
-      Linkable
+    <span className={`inline-flex shrink-0 ${className}`}>
+      {/* Light mode: hiện logo-light (chữ đen trên nền sáng) */}
+      <Image
+        src="/logo-light.png"
+        alt={site.name}
+        width={w}
+        height={h}
+        className={onDark ? "hidden" : "dark:hidden"}
+      />
+      {/* Dark mode / onDark: hiện logo-dark (chữ trắng trên nền tối) */}
+      <Image
+        src="/logo-dark.png"
+        alt={site.name}
+        width={w}
+        height={h}
+        className={onDark ? "block" : "hidden dark:block"}
+      />
     </span>
   );
 }
