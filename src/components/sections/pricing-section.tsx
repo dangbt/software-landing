@@ -28,7 +28,7 @@ export function PricingSection() {
                 key={plan.id}
                 className={`reveal relative flex flex-col h-full ${
                   plan.featured
-                    ? "card-gradient-border card-gradient-border-hover shadow-xl shadow-primary/10 lg:-mt-4"
+                    ? "card-gradient-border shadow-xl shadow-primary/10 lg:-mt-4"
                     : "rounded-2xl border border-border bg-card card-hover-subtle"
                 }`}
               >
