@@ -33,26 +33,26 @@ export function Logo({ className = "", size = "md", variant = "full", onDark = f
   const w = logoWidth[size];
   const h = logoHeight[size];
 
-  // Logo dạng ảnh thay vì text - sử dụng logo-light cho dark mode và logo-dark cho light mode
+  // Logo dạng ảnh thay vì text
   // Dùng 2 thẻ Image, hiện/ẩn dựa vào class dark:
+  // - logo-light.png: chữ ĐEN, dùng cho nền SÁNG (light mode)
+  // - logo-dark.png: chữ TRẮNG, dùng cho nền TỐI (dark mode, onDark)
   return (
     <span className={`inline-flex shrink-0 ${className}`}>
-      {/* Light mode: hiện logo-dark (chữ tối trên nền sáng) */}
-      <Image
-        src="/logo-dark.png"
-        alt={site.name}
-        width={w}
-        height={h}
-        priority
-        className={onDark ? "hidden" : "dark:hidden"}
-      />
-      {/* Dark mode: hiện logo-light (chữ sáng trên nền tối) */}
+      {/* Light mode: hiện logo-light (chữ đen trên nền sáng) */}
       <Image
         src="/logo-light.png"
         alt={site.name}
         width={w}
         height={h}
-        priority
+        className={onDark ? "hidden" : "dark:hidden"}
+      />
+      {/* Dark mode / onDark: hiện logo-dark (chữ trắng trên nền tối) */}
+      <Image
+        src="/logo-dark.png"
+        alt={site.name}
+        width={w}
+        height={h}
         className={onDark ? "block" : "hidden dark:block"}
       />
     </span>
