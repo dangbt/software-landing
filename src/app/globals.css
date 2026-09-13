@@ -233,19 +233,22 @@ html {
 
 /* Hover effect nhẹ cho gradient border card
    Dùng specificity cao hơn để thắng .js .reveal.is-visible (0,3,0)
-   Selector này có specificity 0,4,0 */
+   Selector này có specificity 0,4,0
+   Lưu ý: box-shadow không hỗ trợ gradient, phải dùng màu rgba thật.
+   Màu lấy từ gradient (#16a34a và #0f766e) với opacity phù hợp. */
 .js .card-gradient-border.reveal.is-visible:hover {
-  box-shadow: 0 8px 32px -8px var(--gradient-primary-hover, rgba(34, 197, 94, 0.3)),
-    0 4px 16px -4px rgba(13, 148, 136, 0.25);
+  box-shadow: 0 8px 32px -8px rgba(22, 163, 74, 0.35),
+    0 4px 16px -4px rgba(15, 118, 110, 0.25);
   transform: translateY(-2px);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 /* Hover subtle cho normal cards
-   Specificity 0,4,0 để thắng .js .reveal.is-visible */
+   Specificity 0,4,0 để thắng .js .reveal.is-visible
+   Màu shadow lấy từ gradient hover (#16a34a) với opacity thấp */
 .js .card-hover-subtle.reveal.is-visible:hover {
   border-color: var(--primary);
-  box-shadow: 0 4px 16px -4px var(--gradient-primary-hover, rgba(34, 197, 94, 0.2));
+  box-shadow: 0 4px 16px -4px rgba(22, 163, 74, 0.25);
   transform: translateY(-2px);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
