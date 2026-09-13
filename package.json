@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy:landing": "pnpm build && wrangler pages deploy out --project-name=techsoft-landing",
+    "deploy:api": "wrangler deploy --config workers/contact-api/wrangler.toml",
+    "deploy": "pnpm deploy:landing && pnpm deploy:api"
   },
   "dependencies": {
     "framer-motion": "^12.43.0",
