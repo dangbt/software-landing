@@ -195,3 +195,63 @@ html {
   /* Chừa chỗ cho dấu tiếng Việt bên dưới khỏi bị cắt */
   padding-bottom: 0.08em;
 }
+
+/* ------------------------------------------------------------
+   Blob animations — hiệu ứng subtle cho decorative orbs
+   trên Hero section. Dùng transform thay opacity để tránh
+   gây chớp nháy và tối ưu cho GPU.
+   ------------------------------------------------------------ */
+@keyframes blob-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(10px, -15px) scale(1.02);
+  }
+  66% {
+    transform: translate(-8px, 10px) scale(0.98);
+  }
+}
+
+@keyframes blob-float-reverse {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-12px, 12px) scale(0.98);
+  }
+  66% {
+    transform: translate(8px, -10px) scale(1.03);
+  }
+}
+
+@keyframes blob-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: inherit;
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.animate-blob-float {
+  animation: blob-float 12s ease-in-out infinite;
+}
+
+.animate-blob-float-reverse {
+  animation: blob-float-reverse 14s ease-in-out infinite;
+}
+
+.animate-blob-pulse {
+  animation: blob-pulse 8s ease-in-out infinite;
+}
+
+/* Tắt animation blob khi người dùng bật "giảm chuyển động" */
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob-float,
+  .animate-blob-float-reverse,
+  .animate-blob-pulse {
+    animation: none !important;
+  }
+}

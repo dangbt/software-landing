@@ -31,11 +31,56 @@ export function HeroSection() {
       ref={sectionRef}
       className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden"
     >
-      {/* Nền */}
+      {/* Nền với gradient blobs decorative */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-primary-soft/70 via-background to-background" />
-        <div className="absolute -top-24 -left-32 w-[28rem] h-[28rem] bg-logo-from/15 rounded-full blur-3xl" />
-        <div className="absolute top-40 -right-32 w-[26rem] h-[26rem] bg-logo-to/15 rounded-full blur-3xl" />
+        
+        {/* Blob chính - góc trên trái - animation float */}
+        <div 
+          className="absolute -top-24 -left-32 w-[28rem] h-[28rem] rounded-full blur-3xl animate-blob-float"
+          style={{ 
+            background: 'linear-gradient(135deg, var(--logo-from) 0%, var(--logo-to) 100%)',
+            opacity: 0.12
+          }} 
+        />
+        
+        {/* Blob phụ - góc phải - animation float delay */}
+        <div 
+          className="absolute top-40 -right-32 w-[26rem] h-[26rem] rounded-full blur-3xl animate-blob-float-reverse"
+          style={{ 
+            background: 'linear-gradient(135deg, var(--logo-to) 0%, var(--logo-from) 100%)',
+            opacity: 0.1
+          }} 
+        />
+        
+        {/* Blob nhỏ - giữa trái - animation pulse */}
+        <div 
+          className="absolute top-1/2 -left-16 w-[18rem] h-[18rem] md:w-[22rem] md:h-[22rem] rounded-full blur-3xl animate-blob-pulse"
+          style={{ 
+            background: 'radial-gradient(circle, var(--logo-from) 0%, transparent 70%)',
+            opacity: 0.08
+          }} 
+        />
+        
+        {/* Blob nhỏ - góc dưới phải - animation float */}
+        <div 
+          className="absolute bottom-20 right-1/4 w-[14rem] h-[14rem] md:w-[18rem] md:h-[18rem] rounded-full blur-3xl animate-blob-float"
+          style={{ 
+            background: 'radial-gradient(circle, var(--logo-to) 0%, transparent 70%)',
+            opacity: 0.08,
+            animationDelay: '2s'
+          }} 
+        />
+        
+        {/* Orb accent - trên cùng giữa - animation pulse subtle */}
+        <div 
+          className="absolute -top-10 left-1/3 w-[12rem] h-[12rem] md:w-[16rem] md:h-[16rem] rounded-full blur-2xl animate-blob-pulse"
+          style={{ 
+            background: 'linear-gradient(180deg, var(--logo-from) 0%, var(--logo-to) 100%)',
+            opacity: 0.06,
+            animationDelay: '1s'
+          }} 
+        />
       </div>
 
       <Container>
