@@ -129,3 +129,9 @@ pnpm deploy
 ### 404 errors on page refresh
 - The `_redirects` file should handle this
 - If still issues, check Cloudflare Pages settings
+
+## Production hiện tại
+
+- Domain: **https://soft.linkable.vn** (canonical, sitemap, og:image đều sinh từ `site.url` trong `src/lib/site.ts`).
+- Pages project: `techsoft-landing` trong account **Buitandang96@gmail.com** (`a2d8b5f75844e385ea57e0688ade1d15`), subdomain `techsoft-landing.pages.dev`.
+- Account Infinitee cũng có một project trùng tên (`techsoft-landing-9ob.pages.dev`), KHÔNG phải production. `pnpm deploy:landing` đã ghim `CLOUDFLARE_ACCOUNT_ID` để không deploy nhầm sang đó.
