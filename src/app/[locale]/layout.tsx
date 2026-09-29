@@ -61,7 +61,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: `${site.url}/og-${locale}.png`,
+          url: `${site.productionUrl}/og-${locale}.png`,
           width: 1200,
           height: 630,
           alt:
@@ -75,7 +75,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: t("homeTitle"),
       description: t("homeDescription"),
-      images: [`${site.url}/og-${locale}.png`],
+      images: [`${site.productionUrl}/og-${locale}.png`],
     },
     robots: {
       index: true,

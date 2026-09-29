@@ -18,6 +18,10 @@ export const site = {
   /** Domain thật, KHÔNG có dấu / ở cuối. Canonical, sitemap, hreflang và
    *  dữ liệu gửi Google đều sinh ra từ dòng này. */
   url: "https://apps.linkable.vn",
+  /** Domain production hiện tại (Cloudflare Pages). Dùng cho og:image để
+   *  đảm bảo crawler truy cập được ảnh. Khi domain chính đã hoạt động thì
+   *  đổi lại về site.url. */
+  productionUrl: "https://techsoft-landing.pages.dev",
 
   contact: {
     /** TODO */
