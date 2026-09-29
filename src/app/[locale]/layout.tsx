@@ -59,13 +59,23 @@ export async function generateMetadata({
       siteName: site.name,
       locale: locale === "vi" ? "vi_VN" : "en_US",
       type: "website",
+      images: [
+        {
+          url: `${site.url}/og-${locale}.png`,
+          width: 1200,
+          height: 630,
+          alt:
+            locale === "vi"
+              ? "Linkable — Thiết kế website trọn gói"
+              : "Linkable — Complete website packages",
+        },
+      ],
     },
     twitter: {
-      // Chưa có ảnh OG nên dùng thẻ tóm tắt nhỏ.
-      // Khi có /og.png (1200x630), đổi thành "summary_large_image" và khai báo images.
-      card: "summary",
+      card: "summary_large_image",
       title: t("homeTitle"),
       description: t("homeDescription"),
+      images: [`${site.url}/og-${locale}.png`],
     },
     robots: {
       index: true,

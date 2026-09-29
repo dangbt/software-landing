@@ -2,7 +2,7 @@
 # Handle SPA routing - redirect all requests to index.html
 
 # Redirect root to Vietnamese (default locale)
-/ /vi/ 302
+/ /vi/ 301
 
 # Handle trailing slashes
 /vi /vi/ 301
