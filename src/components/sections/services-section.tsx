@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Container } from "../layout";
 import { SectionHeading } from "../ui/section-heading";
 import { useReveal } from "@/hooks/use-reveal";
+import { Link } from "@/i18n/routing";
 import { site } from "@/lib/site";
 
 const icons = {
@@ -86,22 +87,40 @@ export function ServicesSection() {
 
         <div className="reveal mt-14 text-center">
           <p className="text-secondary mb-5 text-lg max-w-2xl mx-auto">{t("bottomNote")}</p>
-          <a
-            href={site.contact.zalo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 btn-brand px-7 py-3.5 rounded-xl font-semibold"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.8}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            {t("bottomCta")}
-          </a>
+          {/* Nút CTA - nếu có Zalo thì dùng Zalo, nếu không thì dẫn sang trang contact */}
+          {site.contact.zalo ? (
+            <a
+              href={site.contact.zalo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 btn-brand px-7 py-3.5 rounded-xl font-semibold"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.8}
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
+              </svg>
+              {t("bottomCta")}
+            </a>
+          ) : (
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 btn-brand px-7 py-3.5 rounded-xl font-semibold"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.8}
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+              {t("bottomCta")}
+            </Link>
+          )}
         </div>
       </Container>
     </section>

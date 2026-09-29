@@ -290,7 +290,7 @@
     "email": "Email",
     "emailPlaceholder": "you@company.com",
     "phone": "Phone / Zalo",
-    "phonePlaceholder": "0912 345 678",
+    "phonePlaceholder": "09xx xxx xxx",
     "budget": "Estimated budget",
     "budgetPlaceholder": "Select a range",
     "budgetOptions": {

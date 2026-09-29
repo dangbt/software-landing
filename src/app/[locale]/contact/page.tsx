@@ -21,14 +21,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/**
+ * Định nghĩa type cho kênh liên hệ
+ */
+interface ContactChannel {
+  href: string;
+  external: boolean;
+  label: string;
+  value: string;
+  note: string;
+  highlight: boolean;
+  icon: string;
+}
+
 export default async function ContactPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
 
   const t = await getTranslations("contact");
 
-  const channels = [
-    {
+  // Xây dựng danh sách kênh liên hệ động, chỉ thêm các kênh có giá trị thật
+  const channels: ContactChannel[] = [];
+
+  // Kênh Zalo/SĐT - chỉ thêm khi có số thật
+  if (site.contact.zalo && site.contact.phoneDisplay) {
+    channels.push({
       href: site.contact.zalo,
       external: true,
       label: t("phoneLabel"),
@@ -36,17 +53,20 @@ export default async function ContactPage({ params }: Props) {
       note: t("phoneNote"),
       highlight: true,
       icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z",
-    },
-    {
-      href: `mailto:${site.contact.email}`,
-      external: false,
-      label: t("emailLabel"),
-      value: site.contact.email,
-      note: t("emailNote"),
-      highlight: false,
-      icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-    },
-  ];
+    });
+  }
+
+  // Kênh Email - luôn hiển thị vì email là bắt buộc
+  channels.push({
+    href: `mailto:${site.contact.email}`,
+    external: false,
+    label: t("emailLabel"),
+    value: site.contact.email,
+    note: t("emailNote"),
+    // Nếu không có Zalo/SĐT, email trở thành kênh chính (highlight)
+    highlight: channels.length === 0,
+    icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+  });
 
   return (
     <section className="pt-28 pb-16 md:pt-36 md:pb-24 bg-muted">
@@ -116,10 +136,13 @@ export default async function ContactPage({ params }: Props) {
               ))}
 
               <div className="bg-card rounded-xl p-5 border border-border space-y-4">
-                <div>
-                  <p className="text-sm text-secondary mb-1">{t("address")}</p>
-                  <p className="text-foreground leading-relaxed">{site.contact.address}</p>
-                </div>
+                {/* Địa chỉ - chỉ hiển thị khi có địa chỉ thật */}
+                {site.contact.address && (
+                  <div>
+                    <p className="text-sm text-secondary mb-1">{t("address")}</p>
+                    <p className="text-foreground leading-relaxed">{site.contact.address}</p>
+                  </div>
+                )}
                 <div>
                   <p className="text-sm text-secondary mb-1">{t("hoursLabel")}</p>
                   <p className="text-foreground">{site.contact.workingHours}</p>

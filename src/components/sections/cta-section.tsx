@@ -71,39 +71,60 @@ export function CTASection() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </Link>
-            <a
-              href={site.contact.zalo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white hover:bg-white/15 text-white px-7 py-4 rounded-xl font-semibold text-lg transition-all backdrop-blur-sm"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.8}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                />
-              </svg>
-              {t("zaloCta")}
-            </a>
+            {/* Nút Zalo - chỉ hiển thị khi có link Zalo thật */}
+            {site.contact.zalo ? (
+              <a
+                href={site.contact.zalo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white hover:bg-white/15 text-white px-7 py-4 rounded-xl font-semibold text-lg transition-all backdrop-blur-sm"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.8}
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  />
+                </svg>
+                {t("zaloCta")}
+              </a>
+            ) : (
+              <a
+                href={`mailto:${site.contact.email}`}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-white/40 hover:border-white hover:bg-white/15 text-white px-7 py-4 rounded-xl font-semibold text-lg transition-all backdrop-blur-sm"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.8}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+                {site.contact.email}
+              </a>
+            )}
           </div>
 
           <div className="reveal flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-white/90 text-sm">
-            <a
-              href={`tel:${site.contact.phoneTel}`}
-              className="flex items-center gap-2 hover:text-white transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.8}
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                />
-              </svg>
-              {site.contact.phoneDisplay}
-            </a>
+            {/* SĐT - chỉ hiển thị khi có số thật */}
+            {site.contact.phoneTel && site.contact.phoneDisplay && (
+              <a
+                href={`tel:${site.contact.phoneTel}`}
+                className="flex items-center gap-2 hover:text-white transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.8}
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                {site.contact.phoneDisplay}
+              </a>
+            )}
             <a
               href={`mailto:${site.contact.email}`}
               className="flex items-center gap-2 hover:text-white transition-colors"

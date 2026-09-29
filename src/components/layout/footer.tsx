@@ -43,33 +43,41 @@ export function Footer() {
             </p>
 
             {/* Thông tin pháp nhân — yếu tố tin cậy quan trọng nhất với khách Việt Nam */}
+            {/* Chỉ hiển thị các field có giá trị thật */}
             <div className="text-sm text-slate-400 space-y-1 mb-5">
               <p className="text-slate-300 font-medium">{site.legalName}</p>
-              <p>
-                {t("businessLicense")}: {site.taxId}
-              </p>
-              <p>
-                {t("established")}: {site.established}
-              </p>
+              {site.taxId && (
+                <p>
+                  {t("businessLicense")}: {site.taxId}
+                </p>
+              )}
+              {site.established && (
+                <p>
+                  {t("established")}: {site.established}
+                </p>
+              )}
             </div>
 
             <div className="flex gap-3">
-              <a
-                href={site.contact.zalo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors"
-                aria-label="Zalo"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.8}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
-              </a>
+              {/* Zalo icon - chỉ hiển thị khi có link Zalo */}
+              {site.contact.zalo && (
+                <a
+                  href={site.contact.zalo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="Zalo"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.8}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.9 9.9 0 01-4.03-.84L3 21l1.4-3.72A7.6 7.6 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </a>
+              )}
               {site.contact.facebook && (
                 <a
                   href={site.contact.facebook}
@@ -104,14 +112,17 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{t("contact")}</h3>
             <ul className="space-y-2.5 text-sm text-slate-400 mb-6">
-              <li>
-                <a
-                  href={`tel:${site.contact.phoneTel}`}
-                  className="hover:text-white transition-colors font-medium text-slate-300"
-                >
-                  {site.contact.phoneDisplay}
-                </a>
-              </li>
+              {/* SĐT - chỉ hiển thị khi có số thật */}
+              {site.contact.phoneTel && site.contact.phoneDisplay && (
+                <li>
+                  <a
+                    href={`tel:${site.contact.phoneTel}`}
+                    className="hover:text-white transition-colors font-medium text-slate-300"
+                  >
+                    {site.contact.phoneDisplay}
+                  </a>
+                </li>
+              )}
               <li>
                 <a
                   href={`mailto:${site.contact.email}`}
@@ -120,7 +131,8 @@ export function Footer() {
                   {site.contact.email}
                 </a>
               </li>
-              <li>{site.contact.address}</li>
+              {/* Địa chỉ - chỉ hiển thị khi có địa chỉ thật */}
+              {site.contact.address && <li>{site.contact.address}</li>}
               <li>{site.contact.workingHours}</li>
             </ul>
 

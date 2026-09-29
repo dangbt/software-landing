@@ -85,14 +85,18 @@ export default async function PrivacyPage({ params }: Props) {
                     {site.contact.email}
                   </a>
                 </li>
-                <li>
-                  {locale === "vi" ? "Điện thoại" : "Phone"}:{" "}
-                  <a href={`tel:${site.contact.phoneTel}`} className="text-primary hover:underline">
-                    {site.contact.phoneDisplay}
-                  </a>
-                </li>
+                {/* SĐT - chỉ hiển thị khi có số thật */}
+                {site.contact.phoneTel && site.contact.phoneDisplay && (
+                  <li>
+                    {locale === "vi" ? "Điện thoại" : "Phone"}:{" "}
+                    <a href={`tel:${site.contact.phoneTel}`} className="text-primary hover:underline">
+                      {site.contact.phoneDisplay}
+                    </a>
+                  </li>
+                )}
                 <li>{site.legalName}</li>
-                <li>{site.contact.address}</li>
+                {/* Địa chỉ - chỉ hiển thị khi có địa chỉ thật */}
+                {site.contact.address && <li>{site.contact.address}</li>}
               </ul>
             </section>
           </div>
