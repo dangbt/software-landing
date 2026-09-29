@@ -291,7 +291,7 @@
     "email": "Email",
     "emailPlaceholder": "ten@congty.com",
     "phone": "Số điện thoại / Zalo",
-    "phonePlaceholder": "0912 345 678",
+    "phonePlaceholder": "09xx xxx xxx",
     "budget": "Ngân sách dự kiến",
     "budgetPlaceholder": "Chọn khoảng ngân sách",
     "budgetOptions": {

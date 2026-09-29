@@ -7,22 +7,23 @@ const FAQ_COUNT = 8;
 /**
  * Dữ liệu có cấu trúc cho Google: thông tin doanh nghiệp, dịch vụ và FAQ.
  * FAQPage giúp câu hỏi hiển thị ngay trên trang kết quả tìm kiếm.
+ *
+ * CHÚ Ý: Chỉ render các field có giá trị thật (không undefined).
+ * Điền giá trị thật vào src/lib/site.ts để field tự động xuất hiện.
  */
 export function JsonLd({ locale }: { locale: string }) {
   const tFaq = useTranslations("faq");
   const tPricing = useTranslations("pricing");
   const tSeo = useTranslations("seo");
 
-  const organization = {
+  // Xây dựng object organization chỉ với các field có giá trị thật
+  const organization: Record<string, unknown> = {
     "@type": "ProfessionalService",
     "@id": `${site.url}#organization`,
     name: site.name,
     legalName: site.legalName,
     url: absoluteUrl(locale),
     email: site.contact.email,
-    telephone: site.contact.phoneTel,
-    taxID: site.taxId,
-    foundingDate: site.established,
     description: tSeo("homeDescription"),
     address: {
       "@type": "PostalAddress",
@@ -44,6 +45,17 @@ export function JsonLd({ locale }: { locale: string }) {
       })),
     },
   };
+
+  // Chỉ thêm các field optional khi có giá trị thật
+  if (site.contact.phoneTel) {
+    organization.telephone = site.contact.phoneTel;
+  }
+  if (site.taxId) {
+    organization.taxID = site.taxId;
+  }
+  if (site.established) {
+    organization.foundingDate = site.established;
+  }
 
   const faq = {
     "@type": "FAQPage",
