@@ -136,10 +136,13 @@ export default async function ContactPage({ params }: Props) {
               ))}
 
               <div className="bg-card rounded-xl p-5 border border-border space-y-4">
-                <div>
-                  <p className="text-sm text-secondary mb-1">{t("address")}</p>
-                  <p className="text-foreground leading-relaxed">{site.contact.address}</p>
-                </div>
+                {/* Địa chỉ - chỉ hiển thị khi có địa chỉ thật */}
+                {site.contact.address && (
+                  <div>
+                    <p className="text-sm text-secondary mb-1">{t("address")}</p>
+                    <p className="text-foreground leading-relaxed">{site.contact.address}</p>
+                  </div>
+                )}
                 <div>
                   <p className="text-sm text-secondary mb-1">{t("hoursLabel")}</p>
                   <p className="text-foreground">{site.contact.workingHours}</p>

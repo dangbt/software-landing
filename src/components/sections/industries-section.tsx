@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Container } from "../layout";
 import { SectionHeading } from "../ui/section-heading";
 import { useReveal } from "@/hooks/use-reveal";
+import { Link } from "@/i18n/routing";
 import { site } from "@/lib/site";
 
 /** Icon theo thứ tự của mảng `industries.items` trong file ngôn ngữ. */
@@ -53,17 +54,30 @@ export function IndustriesSection() {
         </div>
 
         <div className="reveal mt-10 text-center">
-          <a
-            href={site.contact.zalo}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-primary font-semibold hover:underline underline-offset-4"
-          >
-            {t("cta")}
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+          {/* Link CTA - nếu có Zalo thì dùng Zalo, nếu không thì dẫn sang trang contact */}
+          {site.contact.zalo ? (
+            <a
+              href={site.contact.zalo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:underline underline-offset-4"
+            >
+              {t("cta")}
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          ) : (
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 text-primary font-semibold hover:underline underline-offset-4"
+            >
+              {t("cta")}
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          )}
         </div>
       </Container>
     </section>

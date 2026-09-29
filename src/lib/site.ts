@@ -23,8 +23,11 @@ interface ContactInfo {
   zalo?: string;
   /** Link Facebook Page */
   facebook?: string;
-  /** Địa chỉ đầy đủ */
-  address: string;
+  /**
+   * Địa chỉ đầy đủ — để undefined nếu chưa có địa chỉ thật
+   * Khi undefined, JSON-LD sẽ không có PostalAddress, footer/contact ẩn địa chỉ
+   */
+  address?: string;
   city: string;
   country: string;
   workingHours: string;
@@ -94,7 +97,13 @@ export const site: SiteConfig = {
     zalo: undefined,
 
     facebook: "",
-    address: "123 Đường Công Nghệ, Quận 1, TP. Hồ Chí Minh",
+
+    /**
+     * TODO: Điền địa chỉ thật vào đây
+     * Ví dụ: address: "Tầng 5, Tòa nhà ABC, 123 Nguyễn Văn Linh, Quận 7, TP. Hồ Chí Minh",
+     * Hiện tại để undefined để không hiển thị địa chỉ giả
+     */
+    address: undefined,
     city: "TP. Hồ Chí Minh",
     country: "VN",
     workingHours: "Thứ 2 - Thứ 7, 8:00 - 18:00",

@@ -25,12 +25,6 @@ export function JsonLd({ locale }: { locale: string }) {
     url: absoluteUrl(locale),
     email: site.contact.email,
     description: tSeo("homeDescription"),
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: site.contact.address,
-      addressLocality: site.contact.city,
-      addressCountry: site.contact.country,
-    },
     areaServed: { "@type": "Country", name: "Vietnam" },
     priceRange: "₫₫",
     hasOfferCatalog: {
@@ -45,6 +39,16 @@ export function JsonLd({ locale }: { locale: string }) {
       })),
     },
   };
+
+  // Chỉ thêm PostalAddress khi có địa chỉ thật
+  if (site.contact.address) {
+    organization.address = {
+      "@type": "PostalAddress",
+      streetAddress: site.contact.address,
+      addressLocality: site.contact.city,
+      addressCountry: site.contact.country,
+    };
+  }
 
   // Chỉ thêm các field optional khi có giá trị thật
   if (site.contact.phoneTel) {

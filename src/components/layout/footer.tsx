@@ -131,7 +131,8 @@ export function Footer() {
                   {site.contact.email}
                 </a>
               </li>
-              <li>{site.contact.address}</li>
+              {/* Địa chỉ - chỉ hiển thị khi có địa chỉ thật */}
+              {site.contact.address && <li>{site.contact.address}</li>}
               <li>{site.contact.workingHours}</li>
             </ul>
 
